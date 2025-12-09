@@ -1,112 +1,529 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>Everyday Saints – Wheel</title>
-    <style>
-      body {
-        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-        margin: 0;
-        padding: 1.5rem;
-        background: #f5f5f8;
+<head>
+  <meta charset="utf-8">
+  <title>Pre-Schism Saints Wheel</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600&display=swap"
+    rel="stylesheet">
+
+  <!-- Bootstrap 5 -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  >
+
+  <style>
+    :root {
+      --bg-gradient: radial-gradient(circle at top, #fdf6e3 0, #f4f1ff 30%, #edf2ff 60%, #e5f6ff 100%);
+      --card-radius: 1.25rem;
+      --shadow-soft: 0 18px 45px rgba(15, 23, 42, 0.15);
+      --accent: #8b5cf6;
+      --accent-soft: rgba(139, 92, 246, 0.15);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg-gradient);
+      color: #111827;
+    }
+
+    .navbar-brand span.brand-text {
+      font-family: "Playfair Display", serif;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      font-size: 1.9rem;
+    }
+
+    .brand-icon {
+      width: 32px;
+      height: 32px;
+      font-size: 1rem;
+    }
+
+    .hero {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-title {
+      font-family: "Playfair Display", serif;
+      font-weight: 700;
+      font-size: clamp(2rem, 3vw, 2.5rem);
+      letter-spacing: 0.03em;
+    }
+
+    .hero-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.25rem 0.9rem;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.06);
+      font-size: 0.82rem;
+      color: #4b5563;
+    }
+
+    .hero-pill span.badge-inner {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 1.6rem;
+      height: 1.6rem;
+      border-radius: 50%;
+      background: #6366f1;
+      color: #fff;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .hero-subtitle {
+      max-width: 680px;
+      margin: 0.75rem auto 0;
+      color: #4b5563;
+      font-size: 0.95rem;
+    }
+
+    .main-card {
+      background: #ffffff;
+      border-radius: var(--card-radius);
+      box-shadow: var(--shadow-soft);
+      padding: 1.75rem 1.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .main-card::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background:
+        radial-gradient(circle at top left, rgba(99, 102, 241, 0.12), transparent 60%),
+        radial-gradient(circle at bottom right, rgba(236, 72, 153, 0.12), transparent 60%);
+      opacity: 0.6;
+      z-index: -1;
+    }
+
+    .wheel-shell {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    #wheel {
+      width: 320px;
+      height: 320px;
+      border-radius: 50%;
+      border: 10px solid rgba(15, 23, 42, 0.75);
+      box-shadow: 0 18px 40px rgba(15, 23, 42, 0.35);
+      transition: transform 3s cubic-bezier(0.19, 1, 0.22, 1);
+      margin: 0 auto;
+      position: relative;
+      background: conic-gradient(#e5e7eb, #e5e7eb);
+    }
+
+    .wheel-center-label {
+      position: absolute;
+      inset: 50%;
+      transform: translate(-50%, -50%);
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: rgba(15, 23, 42, 0.9);
+      color: #f9fafb;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 0.5rem;
+      font-size: 0.78rem;
+      line-height: 1.25;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      box-shadow: 0 8px 20px rgba(15, 23, 42, 0.6);
+    }
+
+    .wheel-center-label strong {
+      font-size: 0.8rem;
+    }
+
+    .pointer {
+      width: 0;
+      height: 0;
+      border-left: 15px solid transparent;
+      border-right: 15px solid transparent;
+      border-bottom: 25px solid #ef4444;
+      margin: 0 auto;
+      margin-top: 0.75rem;
+      filter: drop-shadow(0 4px 6px rgba(220, 38, 38, 0.4));
+    }
+
+    #spin-btn {
+      margin-top: 1rem;
+      padding-inline: 1.75rem;
+      border-radius: 999px;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      font-size: 0.9rem;
+      box-shadow: 0 10px 25px rgba(59, 130, 246, 0.35);
+    }
+
+    #spin-btn:disabled {
+      opacity: 0.7;
+      box-shadow: none;
+    }
+
+    .last-picked {
+      margin-top: 0.5rem;
+      font-size: 0.9rem;
+      color: #4b5563;
+    }
+
+    .saints-column {
+      display: flex;
+    }
+
+    .saints-card {
+      background: rgba(255, 255, 255, 0.96);
+      border-radius: var(--card-radius);
+      box-shadow: 0 16px 35px rgba(15, 23, 42, 0.14);
+      border: 1px solid rgba(148, 163, 184, 0.45);
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+    }
+
+    .saints-card .card-header {
+      background: linear-gradient(to right, rgba(129, 140, 248, 0.18), rgba(236, 72, 153, 0.08));
+      border-bottom: 1px solid rgba(148, 163, 184, 0.35);
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    .saints-card .card-body {
+      flex: 1 1 auto;
+    }
+
+    .saints-list {
+      max-height: 450px;
+      overflow-y: auto;
+      font-size: 0.9rem;
+      padding-right: 0.25rem;
+    }
+
+    .calendar-button {
+      position: fixed;
+      top: 60px;
+      right: 170px;
+      padding: 0.7rem 1.2rem;
+      font-size: 1.05rem;
+      font-weight: 600;
+      border-radius: 999px;
+      border: none;
+      text-decoration: none;
+      background: #ffffff;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+      color: #333;
+      cursor: pointer;
+    }
+
+    .calendar-button:hover {
+      box-shadow: 0 3px 10px rgba(0,0,0,0.22);
+      transform: translateY(-1px);
+    }
+
+    .saints-list li {
+      margin-bottom: 0.2rem;
+      padding: 0.05rem 0;
+    }
+
+    .saints-list li::marker {
+      color: var(--accent);
+    }
+
+    .small-note {
+      font-size: 0.78rem;
+      color: #6b7280;
+    }
+
+    .badge-liturgical {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.2rem 0.65rem;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: #4c1d95;
+      font-size: 0.8rem;
+    }
+
+    .modal-content {
+      border-radius: 1rem;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      box-shadow: 0 18px 50px rgba(15, 23, 42, 0.35);
+    }
+
+    .modal-header {
+      border-bottom: 1px solid rgba(148, 163, 184, 0.35);
+      background: linear-gradient(to right, rgba(129, 140, 248, 0.12), rgba(236, 72, 153, 0.08));
+    }
+
+    .modal-title {
+      font-family: "Playfair Display", serif;
+      font-weight: 600;
+    }
+
+    .link-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.25rem 0.7rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      font-size: 0.82rem;
+      text-decoration: none;
+      color: #1d4ed8;
+      background: #f9fafb;
+    }
+
+    .link-chip:hover {
+      background: #eff6ff;
+      text-decoration: none;
+    }
+
+    @media (max-width: 767px) {
+      .main-card {
+        padding: 1.5rem 1.1rem;
       }
-
-      h1 {
-        margin-top: 0;
+      #wheel {
+        width: 260px;
+        height: 260px;
       }
-
-      .calendar-button {
-        position: fixed;
-        top: 60px;
-        right: 170px;
-        padding: 0.7rem 1.2rem;
-        border-radius: 999px;
-        border: none;
-        text-decoration: none;
-        font-size: 1.05rem;
-        font-weight: 600;
-        background: #ffffff;
-        box-shadow: 0 3px 8px rgba(0,0,0,0.18);
-        color: #333;
-        cursor: pointer;
+      .saints-list {
+        max-height: 200px;
       }
+    }
+  </style>
+</head>
+<body>
+  <!-- Top bar with bigger logo -->
+  <nav class="navbar navbar-expand-lg bg-transparent">
+    <div class="container py-2">
+      <a class="navbar-brand d-flex align-items-center gap-2" href="#">
+        <span class="badge-inner rounded-circle bg-dark text-white d-inline-flex align-items-center justify-content-center brand-icon">
+          ⛪
+        </span>
+        <span class="brand-text">Saints Wheel</span>
+      </a>
+    </div>
+  </nav>
 
-      .calendar-button:hover {
-        box-shadow: 0 4px 12px rgba(0,0,0,0.22);
-        transform: translateY(-1px);
-      }
+  <!-- Static link to calendar.html instead of url_for -->
+  <a href="calendar.html" class="calendar-button">
+    📅 Feast Calendar
+  </a>
 
-      .card {
-        max-width: 600px;
-        margin-top: 3rem;
-        padding: 1.5rem;
-        border-radius: 0.75rem;
-        background: white;
-        box-shadow: 0 1px 6px rgba(0,0,0,0.1);
-      }
+  <div class="container pb-5">
+    <!-- Hero -->
+    <section class="hero">
+      <div class="hero-pill">
+        <span class="badge-inner">✝</span>
+        Pre-Schism • Catholic + Orthodox • Shared saints
+      </div>
+      <h1 class="hero-title mt-3">Pre-Schism Saints Wheel</h1>
+      <p class="hero-subtitle">
+        Spin to receive a <strong>pre-schism saint</strong> venerated in both the Catholic and Orthodox
+        Churches. You’ll see a short summary, feast days in each tradition, and a link to read more.
+      </p>
+    </section>
 
-      #saint-name {
-        font-size: 1.4rem;
-        font-weight: 700;
-        margin-bottom: 0.5rem;
-      }
-
-      #saint-summary {
-        font-size: 0.95rem;
-        color: #555;
-        margin-bottom: 0.75rem;
-      }
-
-      .feasts {
-        font-size: 0.85rem;
-        color: #444;
-        margin-bottom: 0.75rem;
-      }
-
-      #spin-button {
-        margin-top: 1rem;
-        padding: 0.6rem 1.2rem;
-        border-radius: 999px;
-        border: none;
-        font-size: 1rem;
-        font-weight: 600;
-        cursor: pointer;
-        background: #3b82f6;
-        color: white;
-        box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-      }
-    </style>
-  </head>
-  <body>
-    <!-- Calendar tab button -->
-    <a href="calendar.html" class="calendar-button">
-      📅 Feast Calendar
-    </a>
-
-    <h1>✝ Pre-Schism • Catholic + Orthodox • Shared Saints</h1>
-
-    <div class="card">
-      <div id="saint-name"></div>
-      <div id="saint-summary"></div>
-
-      <div class="feasts">
-        <div><strong>Catholic feast:</strong> <span id="saint-feast-catholic"></span></div>
-        <div><strong>Orthodox feast:</strong> <span id="saint-feast-orthodox"></span></div>
+    <!-- Main content -->
+    <div class="row g-4 justify-content-center align-items-stretch">
+      <!-- Wheel -->
+      <div class="col-lg-6">
+        <div class="main-card h-100">
+          <div class="wheel-shell">
+            <div id="wheel">
+              <div class="wheel-center-label">
+                <span>Spin the</span>
+                <strong>SAINTS<br>WHEEL</strong>
+              </div>
+            </div>
+            <div class="pointer"></div>
+            <button id="spin-btn" class="btn btn-primary btn-lg">
+              🎡 Spin the wheel
+            </button>
+            <div class="last-picked" id="last-picked"></div>
+            <div class="small-note mt-2">
+              <span class="badge-liturgical">
+                ℹ Feast days:
+                <span>Gregorian dates shown; Old-Calendar Orthodox churches keep many feasts 13 days later.</span>
+              </span>
+            </div>
+          </div>
+        </div>
       </div>
 
-      <a id="saint-link" href="#" target="_blank" rel="noopener noreferrer">
-        Read more
-      </a>
-
-      <div>
-        <button id="spin-button">🎡 Spin the Wheel</button>
+      <!-- Saints list -->
+      <div class="col-lg-5 saints-column">
+        <div class="card saints-card h-100">
+          <div class="card-header">
+            Saints on this wheel
+          </div>
+          <div class="card-body">
+            <div class="saints-list">
+              <ul class="mb-0" id="saints-list">
+                <!-- Filled in by JS from SAINTS -->
+              </ul>
+            </div>
+          </div>
+          <div class="card-footer small-note">
+            All saints listed are pre-schism and honored in both Catholic and Orthodox traditions,
+            though exact feast dates and emphasis can vary by rite and calendar.
+          </div>
+        </div>
       </div>
     </div>
+  </div>
 
-    <script src="saints.js"></script>
-    <script src="app.js"></script>
-    <script>
-      initWheelPage();
-    </script>
-  </body>
+  <!-- Modal for saint details -->
+  <div class="modal fade" id="saintModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="saintModalLabel">Saint details</h5>
+          <button type="button" class="btn-close"
+                  data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p id="saint-summary" class="mb-3"></p>
+          <p class="mb-1"><strong>Feast day (Catholic / Western):</strong>
+            <span id="saint-feast-catholic"></span>
+          </p>
+          <p class="mb-3"><strong>Feast day (Orthodox):</strong>
+            <span id="saint-feast-orthodox"></span>
+          </p>
+
+          <p class="mb-2"><strong>Read more:</strong></p>
+          <div class="d-flex flex-wrap gap-2">
+            <a id="saint-link-article" href="#" target="_blank" class="link-chip">
+              📖 Article (Wikipedia)
+            </a>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button"
+                  class="btn btn-outline-secondary"
+                  data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Saints data (static) -->
+  <script src="saints.js"></script>
+
+  <script>
+    // Uses global SAINTS from saints.js
+    const wheel = document.getElementById('wheel');
+    const spinBtn = document.getElementById('spin-btn');
+    const lastPickedEl = document.getElementById('last-picked');
+    const saintsListEl = document.getElementById('saints-list');
+    let rotation = 0;
+
+    function buildWheel() {
+      const n = SAINTS.length;
+      if (n === 0) {
+        wheel.style.background = 'conic-gradient(#e5e7eb, #e5e7eb)';
+        return;
+      }
+
+      const slice = 360 / n;
+      const parts = [];
+      for (let i = 0; i < n; i++) {
+        const hue = Math.round((i * 360) / n);
+        const start = i * slice;
+        const end = (i + 1) * slice;
+        parts.push(`hsl(${hue}, 80%, 65%) ${start}deg ${end}deg`);
+      }
+      wheel.style.background = `conic-gradient(${parts.join(',')})`;
+    }
+
+    function populateSaintList() {
+      if (!saintsListEl) return;
+      saintsListEl.innerHTML = '';
+      SAINTS.forEach((saint) => {
+        const li = document.createElement('li');
+        li.textContent = saint.name;
+        saintsListEl.appendChild(li);
+      });
+    }
+
+    function pickRandomSaint() {
+      const n = SAINTS.length;
+      if (n === 0) return null;
+      const idx = Math.floor(Math.random() * n);
+      return SAINTS[idx];
+    }
+
+    function spinWheel() {
+      spinBtn.disabled = true;
+
+      const extra = Math.floor(Math.random() * 360);
+      rotation += 360 * 5 + extra;
+      wheel.style.transform = `rotate(${rotation}deg)`;
+
+      const saint = pickRandomSaint();
+
+      setTimeout(() => {
+        if (!saint) {
+          spinBtn.disabled = false;
+          return;
+        }
+
+        document.getElementById('saintModalLabel').innerText = saint.name || '';
+        document.getElementById('saint-summary').innerText = saint.summary || '';
+        document.getElementById('saint-feast-catholic').innerText = saint.feast_catholic || '';
+        document.getElementById('saint-feast-orthodox').innerText = saint.feast_orthodox || '';
+
+        const articleLink = document.getElementById('saint-link-article');
+        if (saint.article_link) {
+          articleLink.href = saint.article_link;
+          articleLink.style.display = 'inline-flex';
+        } else {
+          articleLink.style.display = 'none';
+        }
+
+        lastPickedEl.innerHTML = `Last spin: <strong>${saint.name}</strong>`;
+
+        const modal = new bootstrap.Modal(document.getElementById('saintModal'));
+        modal.show();
+        spinBtn.disabled = false;
+      }, 3000);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      buildWheel();
+      populateSaintList();
+      spinBtn.addEventListener('click', spinWheel);
+    });
+  </script>
+</body>
 </html>
